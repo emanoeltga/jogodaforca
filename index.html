@@ -1,0 +1,88 @@
+<html>
+
+<head>
+    <title>Jogo da Força</title>
+    <meta charset="utf-8" />
+    <link href="assets/style.css" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: Starjedi;
+            src: url(assets/Starjedi.ttf);
+        }
+
+        .darth-vader {
+            width: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Jogo da Força</h1>
+    <div class="boneco">
+        <img src="assets/darth-vader.png" class="darth-vader" />
+        <div class="parte-do-boneco cabeca"></div>
+        <div class="parte-do-boneco braco-esquerdo"></div>
+        <div class="parte-do-boneco torso"></div>
+        <div class="parte-do-boneco braco-direito"></div>
+        <div class="parte-do-boneco perna-esquerda"></div>
+        <div class="parte-do-boneco perna-direita"></div>
+    </div>
+    <p class="palavra">
+
+    </p>
+    <button onclick="chutar()"><span>CHUTAR LETRA</span></button>
+    <img src="assets/driven.png" class="logo-driven" />
+
+
+
+    <script>
+        const partesDoBoneco = Array.from(document.querySelectorAll(".parte-do-boneco"));
+        const chutesEfetuados = [];
+        const palavra = "uma palavra";
+        let errosCometidos = 0;
+        mostraPalavra();
+        function mostraPalavra() {
+            let palavraMostrada = "";
+            for (let i = 0; i < palavra.length; i++) {
+                if (chutesEfetuados.includes(palavra[i])) {
+                    palavraMostrada = palavraMostrada + '<span class="letra">' + palavra[i] + '</span>';
+                } else if (palavra[i] === " ") {
+                    palavraMostrada = palavraMostrada + " ";
+                } else {
+                    palavraMostrada = palavraMostrada + '<span class="letra">' + "_" + '</span>';
+                }
+            }
+            document.querySelector(".palavra").innerHTML = palavraMostrada;
+        }
+
+        const quatidadeMaximaDeErros = partesDoBoneco.length;
+        function chutar() {
+            if (errosCometidos === quatidadeMaximaDeErros) {
+                alert("Fim De Jogo, Você Perdeu!..");
+                return;
+            }
+            const chute = prompt("Qual é o seu chute?");
+            if (chutesEfetuados.includes(chute)) {
+                alert("Chute já efetuado");
+                return;
+            }
+            chutesEfetuados.push(chute);
+            if (palavra.includes(chute)) {
+                mostraPalavra();
+            } else {
+                errosCometidos = errosCometidos + 1;
+                for (let i = 0; i < errosCometidos; i++) {
+                    partesDoBoneco[i].classList.add("mostrar");
+                }
+                if (errosCometidos === quatidadeMaximaDeErros) {
+                    alert("Fim De Jogo, Você Perdeu!..");
+
+                } else {
+                    alert("Você errou, tente novamente...");
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
